@@ -17,9 +17,9 @@ def prepare_train(df_train):
 
     # Drop the lecture rows
     mask = (df_train.answered_correctly != -1)
-    df_train = df_train[mask]
+    train = df_train[mask]
 
-    return df_train
+    return train
 
 def prepare_question(df_ques):
 
@@ -28,12 +28,33 @@ def prepare_question(df_ques):
 
     return df_ques
 
+def prepare_test(df_test):
+    '''
+    The function takes the example test dataframe acquired from acquire.py and
+    prepares it for its merging with df_ques dataframe.
+    '''
+    df_test.drop(columns=['row_id', 'group_num', 'timestamp', 'content_type_id',
+                        'prior_group_answers_correct', 'prior_group_responses'], inplace=True)
+
+    return df_test
+
+
 def merge_train_questions(df_train, df_ques):
 
-    df_train = prepare_train(df_train)
-    df_ques = prepare_question(df_ques)
+    train = prepare_train(df_train)
+    ques = prepare_question(df_ques)
 
     # Merge the users' history with the df_ques
-    df_train = df_train.merge(df_ques, how='left', left_on='content_id', right_on='question_id')
+    train = train.merge(ques, how='left', left_on='content_id', right_on='question_id')
     
-    return df_train
+    return train
+
+
+def merge_test_questions(df_test, df_ques):
+    '''
+    The function takes the cleaned df_test and df_ques and 
+    combines them on the content/question_id.
+    '''
+    test = df_test.merge(df_ques, how='left', left_on='content_id', right_on='question_id')
+
+    return test

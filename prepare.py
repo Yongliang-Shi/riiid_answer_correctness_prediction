@@ -13,7 +13,7 @@ from tqdm.notebook import tqdm
 def prepare_train(df_train):
     
     # Drop column content_type_id and user_answer in the df_train
-    df_train.drop(columns=['content_type_id', 'user_answer'], inplace=True)
+    df_train.drop(columns=['row_id', 'timestamp', 'content_type_id', 'user_answer'], inplace=True)
 
     # Drop the lecture rows
     mask = (df_train.answered_correctly != -1)

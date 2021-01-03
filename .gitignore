@@ -4,5 +4,9 @@ env.py
 __pycache__
 .vscode/
 *.csv
-*.py
 *.numbers
+prepare_team.py
+explore_team.py
+MVP_Shi.py
+model.py
+acquire_team.py
